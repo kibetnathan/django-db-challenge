@@ -1,0 +1,35 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Django stuff
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+db.sqlite3  # not relevant for you, but safe if you switch
+
+# Virtual environment
+venv/
+ENV/
+env/
+*.env  # important: don't commit DB passwords or secret keys
+.env
+
+# IDE configs
+.vscode/
+.idea/
+
+*.sql
+
