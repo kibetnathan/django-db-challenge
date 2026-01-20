@@ -1,11 +1,15 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .models import Subscriber, Blog
+from .models import Subscriber, Blog, ContactForm
 
 # Create your views here.
 def index(request):
     context = {"message" : "Welcome to Django!"}
     return render(request, 'index.html')
+
+def home(request):
+    context = {"message" : "Welcome to Django!"}
+    return render(request, 'home.html')
 
 def blog_list(request):
     blogs = Blog.objects.all()
@@ -23,3 +27,25 @@ def subscribe(request):
             messages.success(request, 'Thank you for subscribing!')
             return redirect('subscribe')
     return render(request, 'subscribe.html')
+
+def contact_us(request):
+    if request.method == 'POST' :
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            subject = form.cleaned_data['subject']
+            message = form.cleaned_data['message']
+            
+            # send email
+            send_email(
+                f'{subject} from {name}',
+                message,
+                email,
+                ['admin@example.com']
+            )
+            return render(request, 'contact_success.html')
+        
+        else:
+            form = ContactForm()
+        return render(request, 'contact.html', {'form' : form})

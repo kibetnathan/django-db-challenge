@@ -7,21 +7,34 @@
     {% block extra_head %}{% endblock %}
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
-<body>
-    <header>
-        <h1><a href="#">My Blog</a></h1>
-        <nav>
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </nav>
+
+<body class="min-h-screen bg-gray-50 text-gray-800 flex flex-col">
+
+    <header class="border-b bg-white">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+            <h1 class="text-xl font-semibold">
+                <a href="{% url 'home' %}" class="hover:text-blue-600 transition">My Blog</a>
+            </h1>
+
+            <nav>
+                <ul class="flex gap-6 text-sm">
+                    <li><a href="{% url 'home' %}" class="hover:text-blue-600 transition">Home</a></li>
+                    <li><a href="{% url 'blog_list' %}" class="hover:text-blue-600 transition">Blog</a></li>
+                    <li><a href="{% url 'subscribe' %}" class="hover:text-blue-600 transition">Subscribe</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
 
-    <main>
+    <main class="flex-1 max-w-4xl mx-auto px-4 py-8">
         {% block content %}{% endblock %}
     </main>
 
-    <footer>
-        <p>&copy; {{ year }} My Blog</p>
+    <footer class="border-t bg-white">
+        <div class="max-w-4xl mx-auto px-4 py-4 text-sm text-gray-500 text-center">
+            <p>&copy; {{ year }} My Blog</p>
+        </div>
+    </footer>
+
+</body>
+</html>
