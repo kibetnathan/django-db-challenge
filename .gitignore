@@ -18,13 +18,16 @@ dist/
 *.pyc
 *.pyo
 *.pyd
-db.sqlite3  # not relevant for you, but safe if you switch
+db.sqlite3  
+*.sqlite3  
+# not relevant for you, but safe if you switch
 
 # Virtual environment
 venv/
 ENV/
 env/
-*.env  # important: don't commit DB passwords or secret keys
+*.env  
+# important: don't commit DB passwords or secret keys
 .env
 
 # IDE configs

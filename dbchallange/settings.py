@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 from pathlib import Path
 from dotenv import load_dotenv
 import os
+from decouple import config
 
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'myapp',
+    'django_registration',
 ]
 
 MIDDLEWARE = [
@@ -73,24 +75,31 @@ TEMPLATES = [
 WSGI_APPLICATION = 'dbchallange.wsgi.application'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ.get('HOST_USER', 'email@example.com')
-EMAIL_HOST_PASSWORD = os.environ.get('APP_PASSWORD', 'password')
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config('EMAIL_PORT')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('POSTGRES_DB', 'mydatabase'),
-        'USER': os.environ.get('POSTGRES_USER', 'myuser'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', ''),
-        'HOST': os.environ.get('POSTGRES_HOST', 'localhost'),
-        'PORT': os.environ.get('POSTGRES_PORT', '5432'),
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": "mydatabase.sqlite3",
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': config('POSTGRES_DB', 'mydatabase'),
+#         'USER': config('POSTGRES_USER', 'myuser'),
+#         'PASSWORD': config('POSTGRES_PASSWORD', ''),
+#         'HOST': config('POSTGRES_HOST', 'localhost'),
+#         'PORT': config('POSTGRES_PORT', '5432'),
+#     }
+# }
 
 
 # Password validation
@@ -132,3 +141,13 @@ STATIC_URL = 'static/'
 # Config login redirect
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = 'login'
+LOGOUT_REDIRECT_URL = 'login'
+
+#  set custom user model
+AUTH_USER_MODEL = 'myapp.CustomUser'
+
+# Backend Authentication
+AUTHENTICATION_BACKENDS = [
+    'myapp.backends.CustomAuthBackend',
+    'django.contrib.auth.backends.ModelBackend',  # Default authentication backend
+]

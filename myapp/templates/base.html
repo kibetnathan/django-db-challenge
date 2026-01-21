@@ -1,40 +1,76 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}My Blog{% endblock %}</title>
     {% block extra_head %}{% endblock %}
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-</head>
+  </head>
 
-<body class="min-h-screen bg-gray-50 text-gray-800 flex flex-col">
-
+  <body class="min-h-screen bg-gray-50 text-gray-800 flex flex-col">
     <header class="border-b bg-white">
-        <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-            <h1 class="text-xl font-semibold">
-                <a href="{% url 'home' %}" class="hover:text-blue-600 transition">My Blog</a>
-            </h1>
+      <div
+        class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between"
+      >
+        <h1 class="text-xl font-semibold">
+          <a href="{% url 'home' %}" class="hover:text-blue-600 transition"
+            >My Blog</a
+          >
+        </h1>
 
-            <nav>
-                <ul class="flex gap-6 text-sm">
-                    <li><a href="{% url 'home' %}" class="hover:text-blue-600 transition">Home</a></li>
-                    <li><a href="{% url 'blog_list' %}" class="hover:text-blue-600 transition">Blog</a></li>
-                    <li><a href="{% url 'subscribe' %}" class="hover:text-blue-600 transition">Subscribe</a></li>
-                </ul>
-            </nav>
-        </div>
+        <nav>
+          <ul class="flex gap-6 text-sm">
+            <li>
+              <a href="{% url 'home' %}" class="hover:text-blue-600 transition"
+                >Home</a
+              >
+            </li>
+            <li>
+              <a
+                href="{% url 'blog_list' %}"
+                class="hover:text-blue-600 transition"
+                >Blog</a
+              >
+            </li>
+            <li>
+              <a
+                href="{% url 'subscribe' %}"
+                class="hover:text-blue-600 transition"
+                >Subscribe</a
+              >
+            </li>
+            {% if user.is_authenticated %}
+            <li>
+              <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="text-gray-300 hover:text-black">
+                  Logout
+                </button>
+              </form>
+            </li>
+            {% else %}
+            <li>
+              <a href="{% url 'login' %}" class="text-gray-300 hover:text-black"
+                >Login</a
+              >
+            </li>
+            {% endif %}
+          </ul>
+        </nav>
+      </div>
     </header>
 
     <main class="flex-1 max-w-4xl mx-auto px-4 py-8">
-        {% block content %}{% endblock %}
+      {% block content %}{% endblock %}
     </main>
 
     <footer class="border-t bg-white">
-        <div class="max-w-4xl mx-auto px-4 py-4 text-sm text-gray-500 text-center">
-            <p>&copy; {{ year }} My Blog</p>
-        </div>
+      <div
+        class="max-w-4xl mx-auto px-4 py-4 text-sm text-gray-500 text-center"
+      >
+        <p>&copy; {{ year }} My Blog</p>
+      </div>
     </footer>
-
-</body>
+  </body>
 </html>

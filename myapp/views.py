@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .models import Subscriber, Blog, ContactForm
+from .models import Subscriber, Blog
+from .forms import ContactForm
 from django.core.mail import send_mail
+from django.contrib.auth import logout
 
 # Create your views here.
 def index(request):
@@ -50,3 +52,14 @@ def contact_us(request):
     else:
         form = ContactForm()
     return render(request, 'contact.html', {'form' : form})
+
+def logout_view(request):
+    if request.method == 'POST':
+        logout(request)
+        messages.info(request, "You have been logged out successfully!")
+    return redirect('login')
+
+def error_404(request, exception):
+
+    return render(request, '404.html')
+

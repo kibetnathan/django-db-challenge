@@ -15,10 +15,38 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from django.urls import path, include
+from django_registration.backends.one_step.views import RegistrationView
+from django.conf.urls import handler404,handler500
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("myapp.urls")),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('accounts/register/',  RegistrationView.as_view(success_url='/'),name='django_registration_register'),
+    path('accounts/', include('django_registration.backends.one_step.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),path(
+        'password-reset/',
+        auth_views.PasswordResetView.as_view(),
+        name='password_reset'
+    ),
+    path(
+        'password-reset/done/',
+        auth_views.PasswordResetDoneView.as_view(),
+        name='password_reset_done'
+    ),
+    path(
+        'reset/<uidb64>/<token>/',
+        auth_views.PasswordResetConfirmView.as_view(),
+        name='password_reset_confirm'
+    ),
+    path(
+        'reset/done/',
+        auth_views.PasswordResetCompleteView.as_view(),
+        name='password_reset_complete'
+    ),
 ]
+
+handler404 = 'myapp.views.error_404'
