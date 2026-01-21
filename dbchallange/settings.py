@@ -72,7 +72,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'dbchallange.wsgi.application'
 
-
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.environ.get('HOST_USER', 'email@example.com')
+EMAIL_HOST_PASSWORD = os.environ.get('APP_PASSWORD', 'password')
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
@@ -123,3 +128,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# Config login redirect
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = 'login'

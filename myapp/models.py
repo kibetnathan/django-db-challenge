@@ -56,11 +56,12 @@ class ContactForm(forms.Form):
             }
         )
     )
-    message = forms.TextField(
-        widget = forms.TextInput(
+    message = forms.CharField( 
+        widget = forms.Textarea( 
             attrs={
                 'class' : 'form-control',
-                'placeholder' : 'Give your report:'
+                'placeholder' : 'Give your report:',
+                'rows': 5 
             }
         )
     )
@@ -69,6 +70,6 @@ class ContactForm(forms.Form):
         email = self.cleaned_data.get('email')
         # Custom validation
         if 'example.com' in email:
-            raise forms.ValidationError('Example.com emails are not allowed \:\\')
+            raise forms.ValidationError('Example.com emails are not allowed : /')
         return email
 

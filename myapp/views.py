@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Subscriber, Blog, ContactForm
+from django.core.mail import send_mail
 
 # Create your views here.
 def index(request):
@@ -38,7 +39,7 @@ def contact_us(request):
             message = form.cleaned_data['message']
             
             # send email
-            send_email(
+            send_mail(
                 f'{subject} from {name}',
                 message,
                 email,
@@ -46,6 +47,6 @@ def contact_us(request):
             )
             return render(request, 'contact_success.html')
         
-        else:
-            form = ContactForm()
-        return render(request, 'contact.html', {'form' : form})
+    else:
+        form = ContactForm()
+    return render(request, 'contact.html', {'form' : form})
