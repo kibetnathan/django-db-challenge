@@ -12,7 +12,7 @@ from .models import Blog, Author, Subscriber
 #     list_display = ("name", "email", "age")
 #     search_fields = ("name", "email")
 
-admin.site.register(Blog)
-admin.site.register(Author)
-admin.site.register(Subscriber)
-# admin.site.register(ContactForm)
+# admin.site.register(Blog)
+# admin.site.register(Author)
+# admin.site.register(Subscriber)
+# # admin.site.register(ContactForm)

@@ -19,10 +19,14 @@ from django.contrib.auth import views as auth_views
 from django.urls import path, include
 from django_registration.backends.one_step.views import RegistrationView
 from django.conf.urls import handler404,handler500
+from google.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include("myapp.urls")),
+    path('', include("google.urls")),
+    # path('api/', include('myapp.urls')),
+    path('api/', include('products.urls')),
+    path('api/', include('students.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('accounts/register/',  RegistrationView.as_view(success_url='/'),name='django_registration_register'),
@@ -47,6 +51,8 @@ urlpatterns = [
         auth_views.PasswordResetCompleteView.as_view(),
         name='password_reset_complete'
     ),
+    path('api/locations/', location_list_create_api_view, name='location-list-create'),
+    path('api/locations/<int:pk>/', location_retrieve_update_delete_api_view, name='location-retrieve-update-delete'),
 ]
 
-handler404 = 'myapp.views.error_404'
+# handler404 = 'myapp.views.error_404'
