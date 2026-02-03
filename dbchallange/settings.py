@@ -28,7 +28,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'django-insecure-28ft1lxqa$%4bft9i3+87h%a4e_)c12^frplpbf-8)q5w0ozm5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 
 
@@ -192,7 +192,7 @@ CORS_ALLOWED_ORIGINS = [
     'https://example.com',
 
     # Render deployed app (backend or frontend)
-    'https://sub.example.com',
+    'https://django-db-challenge-1.onrender.com/',
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -203,7 +203,7 @@ CORS_ALLOW_HEADERS = [
     'x-requested-width'
 ]
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://django-db-challenge-1.onrender.com/']
 
 GOOGLE_API_KEY = config('GOOGLE_API_KEY')
 
