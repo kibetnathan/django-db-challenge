@@ -36,4 +36,4 @@ env/
 
 *.sql
 
-requirements.txt
+# requirements.txt

@@ -14,6 +14,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 import os
 from decouple import config
+import dj_database_url
 
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -99,15 +100,24 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 #     }
 # }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': config('POSTGRES_DB', 'mydatabase'),
+#         'USER': config('POSTGRES_USER', 'myuser'),
+#         'PASSWORD': config('POSTGRES_PASSWORD', ''),
+#         'HOST': config('POSTGRES_HOST', 'localhost'),
+#         'PORT': config('POSTGRES_PORT', '5432'),
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('POSTGRES_DB', 'mydatabase'),
-        'USER': config('POSTGRES_USER', 'myuser'),
-        'PASSWORD': config('POSTGRES_PASSWORD', ''),
-        'HOST': config('POSTGRES_HOST', 'localhost'),
-        'PORT': config('POSTGRES_PORT', '5432'),
-    }
+    'default' : dj_database_url.config(
+        'DATABASE_URL',
+        default='sqlite:///db.sqlite3',
+        conn_max_age=600,
+        conn_health_checks=True
+    )
 }
 
 
@@ -176,13 +186,13 @@ CORS_ALLOW_ALL_ORIGINS = True # Reccomended for development(never use in product
 CORS_ALLOWED_ORIGINS = [
     # Local React Dev
 
-    'http://localhost:5173'
+    'http://localhost:5173',
 
     # React deployed
     'https://example.com',
 
     # Render deployed app (backend or frontend)
-    'httpsL//sub.example.com',
+    'https://sub.example.com',
 ]
 
 CORS_ALLOW_CREDENTIALS = True
