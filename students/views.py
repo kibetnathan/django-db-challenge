@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, viewsets, exceptions
-from .models import Student
+from .models import Student, UserProfile
 from .serializers import StudentSerializer
 from django.db import IntegrityError
 
@@ -73,3 +73,15 @@ class StudentDetailView(APIView):
         student = self.get_object(pk)
         student.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+def create_profile(request):
+    user_profile = UserProfile.objects.create(
+        username= 'Joseph',
+        email = 'jay@example.com',
+        ssn = '123-24-6789',
+        bio = 'This is a bio about Toseph'
+    )
+    
+    print(user_profile.ssn)
+    print(user_profile.bio)
+    return(render(user_profile))

@@ -24,6 +24,7 @@ from google.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("google.urls")),
+    path('', include("products.urls")),
     # path('api/', include('myapp.urls')),
     path('api/', include('products.urls')),
     path('api/', include('students.urls')),

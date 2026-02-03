@@ -1,4 +1,5 @@
 from django.db import models
+from encrypted_model_fields.fields import EncryptedCharField, EncryptedTextField
 
 # Create your models here.
 class Student(models.Model):
@@ -12,3 +13,14 @@ class Student(models.Model):
 
     def __str__(self):
         return self.name
+    
+
+class UserProfile(models.Model):
+    username = models.CharField(max_length=100)
+    email = models.EmailField()
+
+    ssn = EncryptedCharField(max_length=20,null=True, blank=True)
+    bio = EncryptedTextField()
+
+    def __str__(self):
+        return self.username

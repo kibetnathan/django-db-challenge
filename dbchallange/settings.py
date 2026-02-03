@@ -17,7 +17,7 @@ from decouple import config
 
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
@@ -29,13 +29,12 @@ SECRET_KEY = 'django-insecure-28ft1lxqa$%4bft9i3+87h%a4e_)c12^frplpbf-8)q5w0ozm5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    # 'myapp',
+    'myapp',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -55,12 +54,13 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
@@ -146,22 +146,54 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Config login redirect
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = 'login'
 LOGOUT_REDIRECT_URL = 'login'
 
+ENCRYPTED_FIELDS_KEY = 'your-secret-encryption-key'
+FIELD_ENCRYPTION_KEY = 'ORCqpya6y1D1cuuFFqCwtm7OM3XJafyuJAp3pc2Mviw='
 #  set custom user model
-# AUTH_USER_MODEL = 'myapp.CustomUser'
+AUTH_USER_MODEL = 'myapp.CustomUser'
 
 # Backend Authentication
-# AUTHENTICATION_BACKENDS = [
-#     'myapp.backends.CustomAuthBackend',
-#     'django.contrib.auth.backends.ModelBackend',  # Default authentication backend
-# ]
+AUTHENTICATION_BACKENDS = [
+    'myapp.backends.CustomAuthBackend',
+    'django.contrib.auth.backends.ModelBackend',  # Default authentication backend
+]
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = True # Reccomended for development(never use in production)
+
+#Reccomended for production
+# For specific origins
+CORS_ALLOWED_ORIGINS = [
+    # Local React Dev
+
+    'http://localhost:5173'
+
+    # React deployed
+    'https://example.com',
+
+    # Render deployed app (backend or frontend)
+    'httpsL//sub.example.com',
+]
+
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = [
+    'content-type',
+    'authorization',
+    'x-csrftoken',
+    'x-requested-width'
+]
+
+ALLOWED_HOSTS = []
 
 GOOGLE_API_KEY = config('GOOGLE_API_KEY')
 
